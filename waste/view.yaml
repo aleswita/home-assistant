@@ -1,0 +1,73 @@
+- title: Odpad
+  sections:
+    - type: grid
+      column_span: 4
+      cards:
+        - type: horizontal-stack
+          cards:
+            - type: tile
+              entity: sensor.svoz_smesneho_odpadu
+              name: Směsný
+              icon: mdi:trash-can
+              color: black
+              show_entity_picture: false
+              vertical: true
+              tap_action:
+                action: none
+              features_position: bottom
+          grid_options:
+            columns: 12
+            rows: 2
+        - type: horizontal-stack
+          cards:
+            - type: tile
+              entity: sensor.svoz_plastu
+              name: Plasty
+              icon: mdi:recycle
+              color: yellow
+              show_entity_picture: false
+              vertical: true
+              tap_action:
+                action: none
+              features_position: bottom
+          grid_options:
+            columns: 12
+            rows: 2
+        - type: horizontal-stack
+          cards:
+            - type: tile
+              entity: sensor.svoz_papiru
+              name: Papír
+              icon: mdi:newspaper
+              color: blue
+              show_entity_picture: false
+              vertical: true
+              tap_action:
+                action: none
+              features_position: bottom
+          grid_options:
+            columns: 12
+            rows: 2
+        - type: horizontal-stack
+          cards:
+            - type: tile
+              entity: sensor.svoz_bio_odpadu
+              name: BIO
+              icon: mdi:biohazard
+              color: brown
+              show_entity_picture: false
+              vertical: true
+              tap_action:
+                action: none
+              features_position: bottom
+          grid_options:
+            columns: 12
+            rows: 2
+  header:
+    card:
+      type: markdown
+      content: '# Odpad'
+      text_only: true
+  type: sections
+  max_columns: 4
+  cards: []

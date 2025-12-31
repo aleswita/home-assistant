@@ -1,0 +1,42 @@
+waste_collection_schedule:
+  sources:
+    - name: ics
+      args:
+        file: "/config/odpad_2026.ics"
+
+sensor:
+  # 1. Senzor pouze pro Směsný odpad
+  - platform: waste_collection_schedule
+    name: "Svoz směsného odpadu"
+    details_format: "upcoming"
+    add_days_to: true
+    types:
+      - "Směsný odpad"
+    value_template: '{{ value.date.strftime("%d.%m.%Y") }}'
+
+  # 2. Senzor pouze pro Plasty
+  - platform: waste_collection_schedule
+    name: "Svoz plastů"
+    details_format: "upcoming"
+    add_days_to: true
+    types:
+      - "Plasty"
+    value_template: '{{ value.date.strftime("%d.%m.%Y") }}'
+
+  # 3. Senzor pouze pro Papír
+  - platform: waste_collection_schedule
+    name: "Svoz papíru"
+    details_format: "upcoming"
+    add_days_to: true
+    types:
+      - "Papír"
+    value_template: '{{ value.date.strftime("%d.%m.%Y") }}'
+
+  # 4. Senzor pouze pro BIO odpad
+  - platform: waste_collection_schedule
+    name: "Svoz BIO odpadu"
+    details_format: "upcoming"
+    add_days_to: true
+    types:
+      - "BIO odpad"
+    value_template: '{{ value.date.strftime("%d.%m.%Y") }}'

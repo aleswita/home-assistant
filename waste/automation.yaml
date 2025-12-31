@@ -1,0 +1,34 @@
+alias: "Notifikace: Svoz odpadu"
+description: "Upozorní den předem na Směsný odpad, Plasty nebo Papír"
+triggers:
+  - trigger: time
+    at: "17:00:00"
+conditions:
+  - condition: template
+    value_template: |
+      {{ state_attr('sensor.svoz_smesneho_odpadu', 'daysTo') == 1 or
+         state_attr('sensor.svoz_plastu', 'daysTo') == 1 or
+         state_attr('sensor.svoz_papiru', 'daysTo') == 1 or
+         state_attr('sensor.svoz_bio_odpadu', 'daysTo') == 1 }}
+actions:
+  - variables:
+      odpad_zitra: >
+        {% set array = [] %}
+        {% if state_attr('sensor.svoz_smesneho_odpadu','daysTo') == 1 %}
+          {% set array = array + ['Směsný odpad'] %}
+        {% endif %} {% if state_attr('sensor.svoz_plastu', 'daysTo') == 1 %}
+          {% set array = array + ['Plasty'] %}
+        {% endif %} {% if state_attr('sensor.svoz_papiru', 'daysTo') == 1 %}
+          {% set array = array + ['Papír'] %}
+        {% endif %} {% if state_attr('sensor.svoz_bio_odpadu', 'daysTo') == 1 %}
+          {% set array = array + ['BIO odpad'] %}
+        {% endif %} {{ array | join(' a ') }}
+  - action: notify.mobile_app_ales # přenastav podle sebe
+    data:
+      title: "🚛 Zítra je svoz odpadu!"
+      message: "Připrav: {{ odpad_zitra }}"
+      data:
+        push:
+          sound: default
+          badge: 1
+        url: /dashboard-home/1 # přenastav podle sebe
