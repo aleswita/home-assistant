@@ -69,5 +69,5 @@
             numeric: true
             reverse: false
           grid_options:
-            columns: 12
+            columns: full
             rows: 7
