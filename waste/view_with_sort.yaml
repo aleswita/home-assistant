@@ -1,0 +1,73 @@
+- title: Odpad
+  type: sections
+  max_columns: 4
+  header:
+    card:
+      type: markdown
+      content: '# Odpad'
+      text_only: true
+  sections:
+    - type: grid
+      column_span: 4
+      cards:
+        - type: custom:auto-entities
+          card:
+            type: grid
+            columns: 1
+            square: false
+          card_param: cards
+          filter:
+            template: |
+              {% set ns = namespace(cards=[]) %}
+
+              {% set sensors = [
+                {'id': 'sensor.svoz_smesneho_odpadu', 'name': 'Směsný', 'icon': 'mdi:trash-can', 'def_color': 'grey'},
+                {'id': 'sensor.svoz_plastu', 'name': 'Plasty', 'icon': 'mdi:recycle', 'def_color': 'yellow'},
+                {'id': 'sensor.svoz_papiru', 'name': 'Papír', 'icon': 'mdi:newspaper', 'def_color': 'blue'},
+                {'id': 'sensor.svoz_bio_odpadu', 'name': 'BIO', 'icon': 'mdi:biohazard', 'def_color': 'brown'}
+              ] %}
+
+              {% for item in sensors %}
+                {% set days = state_attr(item.id, 'daysTo') %}
+
+                {% if days != None and days <= 1 %}
+                   {% set color = 'red' %}
+                {% else %}
+                   {% set color = item.def_color %}
+                {% endif %}
+
+                {% if days == 0 %}
+                  {% set time_text = "DNES" %}
+                {% elif days == 1 %}
+                  {% set time_text = "ZÍTRA" %}
+                {% elif days >= 2 and days < 5 %}
+                  {% set time_text = "za " ~ days ~ " dny" %}
+                {% else %}
+                  {% set time_text = "za " ~ days ~ " dní" %}
+                {% endif %}
+
+                {% set new_name = item.name ~ " (" ~ time_text ~ ")" %}
+
+                {% set card_config = {
+                    "type": "tile",
+                    "entity": item.id,
+                    "name": new_name,
+                    "icon": item.icon,
+                    "color": color,
+                    "vertical": true,
+                    "show_entity_picture": false,
+                    "tap_action": {"action": "none"}
+                } %}
+
+                {% set ns.cards = ns.cards + [card_config] %}
+              {% endfor %}
+
+              {{ ns.cards }}
+          sort:
+            method: attribute
+            attribute: daysTo
+            numeric: true
+            reverse: false
+          grid_options:
+            columns: 12
+            rows: 7

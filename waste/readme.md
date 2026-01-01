@@ -15,8 +15,10 @@
 
 ## Ovládací panel
 Vytvořte si nový ovládací panel, viz. `view.yaml`, který si pak můžete přízpůsobit podle sebe
-<p align=center><img height=400 src="view_preview.png"></p>
+<p align=center><img height=400 src=view_preview.png alt=view></p>
+
+Pokud si pres `HACS` nainstalujete dalšíí doplněk s názvem <a href=https://github.com/thomasloven/lovelace-auto-entities>auto-entities</a>, jde docílit toho, že karty se budou řadit podle toho, jaký svoz nastane dřív, viz `view_with_sort.yaml`
 
 ## Notifikace na mobil
 Vytvořte si automatizaci, viz. `automation.yaml`, kterou si pak můžete přízpusobit podle sebe
-<p align=center><img src="notification_preview.png"></p>
+<p align=center><img src=notification_preview.png alt=notification></p>
