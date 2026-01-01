@@ -5,7 +5,7 @@
 - Terminal & SSH (pro instalaci `HACS` doplňku)
 
 ## V HACS doplňku je potřeba nainstalovat následující neoficiální doplňek
-- Waste Collection Schedule
+- <a href=https://github.com/mampfes/hacs_waste_collection_schedule>Waste Collection Schedule</a>
 
 ## Konfigurace
 1. Je potřeba nastavit doplňěk a senzory v `configuration.yaml`, viz přiložený soubor
@@ -15,7 +15,7 @@
 
 ## Ovládací panel
 Vytvořte si nový ovládací panel, viz. `view.yaml`, který si pak můžete přízpůsobit podle sebe
-<p align=center><img height="400" src="view_preview.png"></p>
+<p align=center><img height=400 src="view_preview.png"></p>
 
 ## Notifikace na mobil
 Vytvořte si automatizaci, viz. `automation.yaml`, kterou si pak můžete přízpusobit podle sebe

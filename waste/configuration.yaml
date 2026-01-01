@@ -2,7 +2,7 @@ waste_collection_schedule:
   sources:
     - name: ics
       args:
-        file: "/config/odpad_2026.ics"
+        file: "/config/detmarovice_glembovec.ics"
 
 sensor:
   # 1. Senzor pouze pro Směsný odpad
