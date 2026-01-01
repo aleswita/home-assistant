@@ -1,34 +1,43 @@
-alias: "Notifikace: Svoz odpadu"
-description: "Upozorní den předem na Směsný odpad, Plasty nebo Papír"
+alias: "Notifikace: svoz odpadu"
+description: Upozorní den předem na směsný odpad, plasty, papír nebo BIO odpad
 triggers:
   - trigger: time
     at: "17:00:00"
-conditions:
-  - condition: template
-    value_template: |
-      {{ state_attr('sensor.svoz_smesneho_odpadu', 'daysTo') == 1 or
-         state_attr('sensor.svoz_plastu', 'daysTo') == 1 or
-         state_attr('sensor.svoz_papiru', 'daysTo') == 1 or
-         state_attr('sensor.svoz_bio_odpadu', 'daysTo') == 1 }}
+conditions: []
 actions:
   - variables:
-      odpad_zitra: >
+      waste_tomorrow: >
         {% set array = [] %}
+
         {% if state_attr('sensor.svoz_smesneho_odpadu','daysTo') == 1 %}
-          {% set array = array + ['Směsný odpad'] %}
-        {% endif %} {% if state_attr('sensor.svoz_plastu', 'daysTo') == 1 %}
-          {% set array = array + ['Plasty'] %}
-        {% endif %} {% if state_attr('sensor.svoz_papiru', 'daysTo') == 1 %}
-          {% set array = array + ['Papír'] %}
-        {% endif %} {% if state_attr('sensor.svoz_bio_odpadu', 'daysTo') == 1 %}
-          {% set array = array + ['BIO odpad'] %}
-        {% endif %} {{ array | join(' a ') }}
+          {% set array = array + ['⚫ směsný odpad'] %}
+        {% endif %}
+        {% if state_attr('sensor.svoz_plastu', 'daysTo') == 1 %}
+          {% set array = array + ['🟡 plasty'] %}
+        {% endif %}
+        {% if state_attr('sensor.svoz_papiru', 'daysTo') == 1 %}
+          {% set array = array + ['🔵 papír'] %}
+        {% endif %}
+        {% if state_attr('sensor.svoz_bio_odpadu', 'daysTo') == 1 %}
+          {% set array = array + ['🟤 BIO odpad'] %}
+        {% endif %}
+
+        {% if array | length == 0 %}
+          {# do nothing #}
+        {% elif array | length == 1 %}
+          {{ array[0] }}
+        {% else %}
+          {{ array[:-1] | join(', ') }} a {{ array[-1] }}
+        {% endif %}
+  - condition: template
+    value_template: "{{ waste_tomorrow | length > 0 }}"
   - action: notify.mobile_app_ales # přenastav podle sebe
     data:
-      title: "🚛 Zítra je svoz odpadu!"
-      message: "Připrav: {{ odpad_zitra }}"
+      title: 🚛 Zítra je svoz odpadu!
+      message: "Připrav: {{ waste_tomorrow }}"
       data:
         push:
           sound: default
           badge: 1
+          tag: waste_collection
         url: /dashboard-home/1 # přenastav podle sebe
